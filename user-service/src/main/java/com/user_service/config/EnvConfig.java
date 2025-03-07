@@ -32,9 +32,13 @@ public class EnvConfig implements ApplicationListener<ApplicationReadyEvent> {
     public void onApplicationEvent(ApplicationReadyEvent event) {
         Dotenv dotenv = dotenv();
         Map<String, Object> envProperties = new HashMap<>();
-
-        dotenv.entries().forEach(entry -> envProperties.put(entry.getKey(), entry.getValue()));
-
+    
+        dotenv.entries().forEach(entry -> {
+            envProperties.put(entry.getKey(), entry.getValue());
+            System.out.println("Loaded ENV: " + entry.getKey() + " = " + entry.getValue()); // Debug log
+        });
+    
         environment.getPropertySources().addFirst(new MapPropertySource("dotenvProperties", envProperties));
     }
+    
 }
